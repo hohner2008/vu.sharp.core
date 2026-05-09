@@ -4,9 +4,9 @@ public class BaseCrawler
 {
     private Uri _baseUri;
     
-    public string Url { 
-        get => _baseUri.ToString(); 
-        set  => _baseUri = new Uri(value); 
+    public Uri Url { 
+        get => _baseUri; 
+        set  => _baseUri = value; 
     }
 
     public BaseCrawler(Uri baseUri)

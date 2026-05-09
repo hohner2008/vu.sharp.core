@@ -4,11 +4,16 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="xunit.v3" Version="3.2.2" />
       <PackageReference Include="xunit.v3.assert" Version="3.2.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\vu.core\vu.core.csproj" />
     </ItemGroup>
 
 </Project>
