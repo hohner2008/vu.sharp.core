@@ -5,14 +5,22 @@ namespace vu.sharp.core.test;
 
 public class TestBaseCrawler
 {
+    private readonly ITestOutputHelper _output;
+    
     [Fact]
     public void TestUrlProperty()
     {   
         var testUri = "http://www.google.com/";
         var crawler = new BaseCrawler(new Uri(testUri));
+        _output.WriteLine("Test read uri property: {0}", crawler.Url);
         Assert.Equal(testUri, crawler.Url.AbsoluteUri);
         var newUri = "http://www.qt.io/";
         crawler.Url = new Uri(newUri);
         Assert.Equal(new Uri(newUri), crawler.Url);
+    }
+    
+    public TestBaseCrawler(ITestOutputHelper output)
+    {
+        _output = output;
     }
 }
