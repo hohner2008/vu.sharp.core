@@ -16,6 +16,7 @@ public class TestBaseCrawler
         Assert.Equal(testUri, crawler.Url.AbsoluteUri);
         var newUri = "http://www.qt.io/";
         crawler.Url = new Uri(newUri);
+        _output.WriteLine("Test setup uri property: {0}", crawler.Url);
         Assert.Equal(new Uri(newUri), crawler.Url);
     }
     
