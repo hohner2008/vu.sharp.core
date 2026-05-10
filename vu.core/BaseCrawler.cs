@@ -2,6 +2,13 @@ namespace vu.core;
 
 public class BaseCrawler
 {
+    public enum BrowserName
+    {
+        FIREFOX,
+        CHROMIUM,
+        WEBKIT =3
+    };
+
     private Uri _baseUri;
     
     public Uri Url { 
