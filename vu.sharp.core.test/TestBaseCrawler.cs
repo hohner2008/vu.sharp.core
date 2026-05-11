@@ -19,6 +19,14 @@ public class TestBaseCrawler
         _output.WriteLine("Test setup uri property: {0}", crawler.Url);
         Assert.Equal(new Uri(newUri), crawler.Url);
     }
+
+    [Fact]
+    public void TestRunBrowser()
+    {
+        var testUri = "http://www.google.com/";
+        var crawler = new BaseCrawler(new Uri(testUri));
+        crawler.RunBrowser(BaseCrawler.BrowserName.Webkit);
+    }
     
     public TestBaseCrawler(ITestOutputHelper output)
     {
