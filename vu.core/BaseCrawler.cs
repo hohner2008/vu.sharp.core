@@ -31,16 +31,16 @@ public class BaseCrawler
         return new Task<object>(() => Url.ToString());
     }
 
-    public async void RunBrowser(BrowserName name)
+    public async Task RunBrowser(BrowserName name)
     {
         if (name == BrowserName.Firefox)
         {
             using var playwright = await Playwright.CreateAsync();
-            await using var browser = await playwright.Firefox.LaunchAsync(
-                new BrowserTypeLaunchOptions
-            {
-                Headless = !_showBrowser
-            });
+            var browser = await playwright.Firefox.LaunchAsync(new() { Headless = _showBrowser });
+            var page = await browser.NewPageAsync();
+            await page.GotoAsync(_baseUri.ToString());
+            await page.WaitForLoadStateAsync();
+            
             var result = await Execute();
             _PW = playwright;
             // added close browser

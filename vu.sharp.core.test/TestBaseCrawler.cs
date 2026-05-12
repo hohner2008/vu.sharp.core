@@ -21,11 +21,11 @@ public class TestBaseCrawler
     }
 
     [Fact]
-    public void TestRunBrowser()
+    public async Task TestRunBrowser()
     {
-        var testUri = "http://www.google.com/";
+        var testUri = "http://www.qt.io";
         var crawler = new BaseCrawler(new Uri(testUri));
-        crawler.RunBrowser(BaseCrawler.BrowserName.Webkit);
+        await crawler.RunBrowser(BaseCrawler.BrowserName.Firefox);
     }
     
     public TestBaseCrawler(ITestOutputHelper output)
