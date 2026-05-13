@@ -26,8 +26,11 @@ public class BaseCrawler
 
     private object? _PW;
 
+    private IBrowserContext _browserContext;
+
     public async Task<object> Execute()
     {
+        
         return new Task<object>(() => Url.ToString());
     }
 
@@ -37,6 +40,7 @@ public class BaseCrawler
         {
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Firefox.LaunchAsync(new() { Headless = _showBrowser });
+            _browserContext = await browser.NewContextAsync();
             var page = await browser.NewPageAsync();
             await page.GotoAsync(_baseUri.ToString());
             await page.WaitForLoadStateAsync();
@@ -50,6 +54,7 @@ public class BaseCrawler
         {
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new() { Headless = _showBrowser });
+            _browserContext = await browser.NewContextAsync();
             var page = await browser.NewPageAsync();
             await page.GotoAsync(_baseUri.ToString());
             await page.WaitForLoadStateAsync();
@@ -64,6 +69,7 @@ public class BaseCrawler
         {
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new() { Headless = _showBrowser });
+            _browserContext = await browser.NewContextAsync();
             var page = await browser.NewPageAsync();
             await page.GotoAsync(_baseUri.ToString());
             await page.WaitForLoadStateAsync();
