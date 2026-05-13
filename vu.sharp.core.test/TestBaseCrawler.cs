@@ -26,6 +26,12 @@ public class TestBaseCrawler
         var testUri = "http://www.qt.io";
         var crawler = new BaseCrawler(new Uri(testUri));
         await crawler.RunBrowser(BaseCrawler.BrowserName.Firefox);
+        
+        var chrome_crawler = new BaseCrawler(new Uri(testUri));
+        await chrome_crawler.RunBrowser(BaseCrawler.BrowserName.Chromium);
+        
+        var webkit_crawler = new BaseCrawler(new Uri(testUri));
+        await webkit_crawler.RunBrowser(BaseCrawler.BrowserName.Webkit);
     }
     
     public TestBaseCrawler(ITestOutputHelper output)

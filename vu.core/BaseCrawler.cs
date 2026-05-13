@@ -49,11 +49,12 @@ public class BaseCrawler
         if (name == BrowserName.Chromium)
         {
             using var playwright = await Playwright.CreateAsync();
-            await using var browser = await playwright.Chromium.LaunchAsync(
-                new BrowserTypeLaunchOptions
-                {
-                    Headless = !_showBrowser
-                });
+            var browser = await playwright.Chromium.LaunchAsync(new() { Headless = _showBrowser });
+            var page = await browser.NewPageAsync();
+            await page.GotoAsync(_baseUri.ToString());
+            await page.WaitForLoadStateAsync();
+            
+            
             var result = await Execute();
             _PW = playwright;
             // added close browser
@@ -62,11 +63,12 @@ public class BaseCrawler
         if (name == BrowserName.Webkit)
         {
             using var playwright = await Playwright.CreateAsync();
-            await using var browser = await playwright.Webkit.LaunchAsync(
-                new BrowserTypeLaunchOptions
-                {
-                    Headless = !_showBrowser
-                });
+            var browser = await playwright.Chromium.LaunchAsync(new() { Headless = _showBrowser });
+            var page = await browser.NewPageAsync();
+            await page.GotoAsync(_baseUri.ToString());
+            await page.WaitForLoadStateAsync();
+            
+            
             var result = await Execute();
             _PW = playwright;
             // added close browser
