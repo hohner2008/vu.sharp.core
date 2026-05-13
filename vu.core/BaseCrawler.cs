@@ -44,7 +44,6 @@ public class BaseCrawler
         if (name == BrowserName.Firefox)
         {
             using var playwright = await Playwright.CreateAsync();
-            
             var browser = await playwright.Firefox.LaunchAsync(new() { Headless = _showBrowser });
             _browserContext = await browser.NewContextAsync();
             var page = await browser.NewPageAsync();
@@ -74,7 +73,7 @@ public class BaseCrawler
         if (name == BrowserName.Webkit)
         {
             using var playwright = await Playwright.CreateAsync();
-            var browser = await playwright.Chromium.LaunchAsync(new() { Headless = _showBrowser });
+            var browser = await playwright.Webkit.LaunchAsync(new() { Headless = _showBrowser });
             _browserContext = await browser.NewContextAsync();
             var page = await browser.NewPageAsync();
             await page.GotoAsync(_baseUri.ToString());
