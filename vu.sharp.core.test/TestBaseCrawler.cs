@@ -27,18 +27,18 @@ public class TestBaseCrawler
         var testUri = "http://www.qt.io";
         var crawler = new BaseCrawler(new Uri(testUri));
         await crawler.RunBrowser(BaseCrawler.BrowserName.Firefox);
-        Assert.Equal("firefox", crawler.Context.Browser.BrowserType.Name);
+        Assert.Equal("firefox", crawler.Context.Browser?.BrowserType.Name);
         
         var chromeCrawler = new BaseCrawler(new Uri(testUri));
         await chromeCrawler.RunBrowser(BaseCrawler.BrowserName.Chromium);
-        Assert.Equal("chromium", chromeCrawler.Context.Browser.BrowserType.Name);
+        Assert.Equal("chromium", chromeCrawler.Context.Browser?.BrowserType.Name);
 
 
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
             var webkitCrawler = new BaseCrawler(new Uri(testUri));
             await webkitCrawler.RunBrowser(BaseCrawler.BrowserName.Webkit);
-            Assert.Equal("webkit", webkitCrawler.Context.Browser.BrowserType.Name);
+            Assert.Equal("webkit", webkitCrawler.Context.Browser?.BrowserType.Name);
         }
     }
     
