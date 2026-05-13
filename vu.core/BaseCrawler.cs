@@ -28,6 +28,11 @@ public class BaseCrawler
 
     private IBrowserContext _browserContext;
 
+    public IBrowserContext Context
+    {
+        get => _browserContext;
+    }
+
     public async Task<object> Execute()
     {
         
@@ -39,6 +44,7 @@ public class BaseCrawler
         if (name == BrowserName.Firefox)
         {
             using var playwright = await Playwright.CreateAsync();
+            
             var browser = await playwright.Firefox.LaunchAsync(new() { Headless = _showBrowser });
             _browserContext = await browser.NewContextAsync();
             var page = await browser.NewPageAsync();
