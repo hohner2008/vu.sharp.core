@@ -38,10 +38,13 @@ public class BaseCrawler
 
     public async Task<object> Execute()
     {
-        var page = await _browserContext.NewPageAsync();
-        await page.GotoAsync(_baseUri.ToString());
-        var status = new VuStatus(page);
-        await page.WaitForLoadStateAsync();
+        _page = await _browserContext.NewPageAsync();
+        await _page.GotoAsync(_baseUri.ToString());
+        var status = new VuStatus(_page);
+        await _page.WaitForLoadStateAsync();
+        var page2 = await _browserContext.NewPageAsync();
+        await page2.GotoAsync("https://www.google.com/");
+        await page2.WaitForLoadStateAsync();
         return new Task<object>(() => Url.ToString());
     }
 
