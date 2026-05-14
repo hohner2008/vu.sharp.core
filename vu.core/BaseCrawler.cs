@@ -1,4 +1,5 @@
 using Microsoft.Playwright;
+using vu.sharp.task;
 
 namespace vu.core;
 
@@ -32,10 +33,15 @@ public class BaseCrawler
     {
         get => _browserContext;
     }
+    
+    private IPage _page;
 
     public async Task<object> Execute()
     {
-        
+        var page = await _browserContext.NewPageAsync();
+        await page.GotoAsync(_baseUri.ToString());
+        var status = new VuStatus(page);
+        await page.WaitForLoadStateAsync();
         return new Task<object>(() => Url.ToString());
     }
 
@@ -46,9 +52,6 @@ public class BaseCrawler
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Firefox.LaunchAsync(new() { Headless = _showBrowser });
             _browserContext = await browser.NewContextAsync();
-            var page = await browser.NewPageAsync();
-            await page.GotoAsync(_baseUri.ToString());
-            await page.WaitForLoadStateAsync();
             
             var result = await Execute();
             _PW = playwright;
@@ -60,11 +63,7 @@ public class BaseCrawler
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new() { Headless = _showBrowser });
             _browserContext = await browser.NewContextAsync();
-            var page = await browser.NewPageAsync();
-            await page.GotoAsync(_baseUri.ToString());
-            await page.WaitForLoadStateAsync();
-            
-            
+
             var result = await Execute();
             _PW = playwright;
             // added close browser
@@ -75,10 +74,6 @@ public class BaseCrawler
             using var playwright = await Playwright.CreateAsync();
             var browser = await playwright.Webkit.LaunchAsync(new() { Headless = _showBrowser });
             _browserContext = await browser.NewContextAsync();
-            var page = await browser.NewPageAsync();
-            await page.GotoAsync(_baseUri.ToString());
-            await page.WaitForLoadStateAsync();
-            
             
             var result = await Execute();
             _PW = playwright;
