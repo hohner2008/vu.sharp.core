@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.Playwright;
 using vu.sharp.task;
 
@@ -45,6 +46,9 @@ public class BaseCrawler
         var page2 = await _browserContext.NewPageAsync();
         await page2.GotoAsync("https://www.google.com/");
         await page2.WaitForLoadStateAsync();
+        var pages = _browserContext.Pages;
+        var cake = await _browserContext.CookiesAsync();
+        string json = JsonSerializer.Serialize(cake);
         return new Task<object>(() => Url.ToString());
     }
 
