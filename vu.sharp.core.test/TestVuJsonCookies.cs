@@ -22,7 +22,8 @@ public class TestVuJsonCookies
     [Fact]
     public void TestProtectUnprotect()
     {       
-        _instance.Protect();
+        var protectedTest = _instance.Protect();
+        Assert.NotEqual(jsonTest, protectedTest);
         var actual = _instance.Unprotect();
         Assert.Equal(jsonTest, actual);
     }
