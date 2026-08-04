@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.InteropServices;
 using vu.core;
 using Xunit;
@@ -40,6 +41,19 @@ public class TestBaseCrawler
             await webkitCrawler.RunBrowser(BaseCrawler.BrowserName.Webkit);
             Assert.Equal("webkit", webkitCrawler.Context.Browser?.BrowserType.Name);
         }
+    }
+
+    [Fact]
+    public async Task TestMainFunctionPropertyIsNull()
+    {
+        var testUri = "http://www.qt.io";
+        var crawler = new BaseCrawler(new Uri(testUri));
+        await crawler.RunBrowser(BaseCrawler.BrowserName.Firefox);
+
+        var field = crawler.GetType().GetField("_mainFunction",BindingFlags.Instance | BindingFlags.NonPublic);
+        var obj = field?.GetValue(crawler);
+        _output.WriteLine("Test _mainFunction property is not setup(NULL): ");
+        Assert.Null(obj);
     }
     
     public TestBaseCrawler(ITestOutputHelper output)
