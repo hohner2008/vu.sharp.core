@@ -1,8 +1,11 @@
+using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using Microsoft.Playwright;
 using vu.sharp.task;
 
 namespace vu.core;
+
+public delegate String  F(IPage page);
 
 public class BaseCrawler
 {
@@ -36,6 +39,36 @@ public class BaseCrawler
     }
     
     private IPage _page;
+
+    private F? _mainFunction;
+
+    public void SetMainFunction(F? func)
+    {
+        if (func != null)
+        {
+            _mainFunction = func;
+        }
+        else
+        {
+            throw new NullReferenceException();
+        }
+    }
+    
+
+    private String MainPageFunction(IPage page)
+    {
+        String? res;
+        if (_mainFunction != null)
+        { 
+            res = _mainFunction(page);
+        }
+        else
+        {
+            throw new NullReferenceException();
+        }
+        
+        return res;
+    }
 
     public async Task<object> Execute()
     {
