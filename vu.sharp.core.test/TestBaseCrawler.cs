@@ -1,14 +1,23 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.Playwright;
 using vu.core;
 using Xunit;
 
 namespace vu.sharp.core.test;
 
+
 public class TestBaseCrawler
 {
     private readonly ITestOutputHelper _output;
-    
+
+    String TestF(IPage page)
+    { 
+        Console.WriteLine(page);
+        return "test";
+    }
+
+
     [Fact]
     public void TestUrlProperty()
     {   
@@ -54,6 +63,39 @@ public class TestBaseCrawler
         var obj = field?.GetValue(crawler);
         _output.WriteLine("Test _mainFunction property is not setup(NULL): ");
         Assert.Null(obj);
+    }
+
+    [Fact]
+    public async Task TestSetMainFunction()
+    {
+        var testUri = "http://www.qt.io";
+        var crawler = new BaseCrawler(new Uri(testUri));
+        crawler.SetMainFunction(TestF);
+        var field = crawler.GetType().GetField("_mainFunction",BindingFlags.Instance | BindingFlags.NonPublic);
+        var obj = field?.GetValue(crawler);
+        _output.WriteLine("Test _mainFunction property is not NULL ");
+        Assert.NotNull(obj);
+        vu.core.F? f = obj as vu.core.F;
+        string name = f.Method.Name;
+        _output.WriteLine("Test _mainFunction property is TestF ");
+        Assert.Equal("TestF", name);
+
+    }
+    
+    [Fact]
+    public async Task TestSetMainFunctionNullArgument()
+    {
+        try
+        {
+            var testUri = "http://www.qt.io";
+            var crawler = new BaseCrawler(new Uri(testUri));
+            crawler.SetMainFunction(null);
+        }
+        catch (Exception e)
+        {
+            _output.WriteLine("Test SetMainFunction null argument throw exception as System.NullReferenceException ");
+            Assert.Equal(typeof(System.NullReferenceException), e.GetType());
+        }
     }
     
     public TestBaseCrawler(ITestOutputHelper output)
