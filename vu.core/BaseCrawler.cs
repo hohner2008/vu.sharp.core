@@ -76,7 +76,16 @@ public class BaseCrawler
         await _page.GotoAsync(_baseUri.ToString());
         var status = new VuStatus(_page);
         await _page.WaitForLoadStateAsync();
-        MainPageFunction(_page);
+        try
+        {
+            MainPageFunction(_page);
+        }
+        catch (NullReferenceException e)
+        {
+            Console.WriteLine(e);
+            Console.WriteLine("Please setup MainPageFunction!!!");
+        }
+
         var page2 = await _browserContext.NewPageAsync();
         await page2.GotoAsync("https://www.google.com/");
         await page2.WaitForLoadStateAsync();
